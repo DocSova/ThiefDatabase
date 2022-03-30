@@ -1,0 +1,11 @@
+## Title: Thief Database
+## Description: Fjr capturing pickpoketing info
+## APIVersion: 100033 100034
+## Author: DrSova
+## Version: 0.0
+## DependsOn: 
+## SavedVariables: ThiefDatabase_data
+
+ThiefDatabase.lua
+ThiefDatabaseWindow.xml
+Bindings.xml

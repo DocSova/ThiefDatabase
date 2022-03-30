@@ -1,0 +1,108 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="ScrollListExampleMainWindow" hidden="true" mouseEnabled="true" movable="true" clampedToScreen="false">
+            <Anchor point="RIGHT" relativeTo="GuiRoot" relativePoint="RIGHT" offsetX="0" offsetY="-100"/>
+            <Dimensions x="1024" y="384" />
+            <Controls>
+                <Backdrop name="$(parent)BG" inherits="ZO_ThinBackdrop" />
+                <Label name="$(parent)Heading" font="ZoFontWindowTitle" color="CFDCBD" wrapMode="ELLIPSIS" verticalAlignment="CENTER" text="Scroll List Example">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="16" offsetY="10"/>
+                </Label>
+                <Button name="$(parent)Close">
+                    <Anchor point="TOPRIGHT"  offsetX="-5" offsetY="5"/>
+                    <OnClicked>Dr_ThiefDB.toggleWindow()</OnClicked>
+                    <Dimensions x="25" y="25" />
+                    <Textures normal="/esoui/art/buttons/decline_up.dds" pressed="/esoui/art/buttons/decline_down.dds" mouseOver="/esoui/art/buttons/decline_over.dds" />
+                </Button>
+                <Control name="$(parent)Headers">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Heading" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="16"/>
+                    <Dimensions y="32" />
+                    <Controls>
+                        <Control name="$(parent)Icon" inherits="ZO_SortHeader">
+                            <Anchor point="TOPLEFT" />
+                            <Dimensions x="24" y="32" />
+                        </Control>
+                        <Control name="$(parent)Name" relativeTo="$(parent)Icon" inherits="ZO_SortHeader">
+                            <OnInitialized>
+                                ZO_SortHeader_Initialize(self, "Название", "name", ZO_SORT_ORDER_DOWN, TEXT_ALIGN_LEFT, "ZoFontGameLargeBold")
+                            </OnInitialized>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT"/>
+                            <Dimensions x="320" y="32" />
+                        </Control>
+                        <Control name="$(parent)Location" inherits="ZO_SortHeader">
+                            <OnInitialized>
+                                ZO_SortHeader_Initialize(self, "Локация", "location", ZO_SORT_ORDER_DOWN, TEXT_ALIGN_LEFT, "ZoFontGameLargeBold")
+                            </OnInitialized>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT"/>
+                            <Dimensions x="150" y="32" />
+                        </Control>
+                        <Control name="$(parent)Npc" inherits="ZO_SortHeader">
+                            <OnInitialized>
+                                ZO_SortHeader_Initialize(self, "NPC", "npc", ZO_SORT_ORDER_DOWN, TEXT_ALIGN_LEFT, "ZoFontGameLargeBold")
+                            </OnInitialized>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Location" relativePoint="TOPRIGHT" />
+                            <Dimensions x="128" y="32" />
+                        </Control>
+                        <Control name="$(parent)Trait" inherits="ZO_SortHeader">
+                            <OnInitialized>
+                                ZO_SortHeader_Initialize(self, "Качество", "trait", ZO_SORT_ORDER_DOWN, TEXT_ALIGN_LEFT, "ZoFontGameLargeBold")
+                            </OnInitialized>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Npc" relativePoint="TOPRIGHT" />
+                            <Dimensions x="150" y="32" />
+                        </Control>
+                        <Control name="$(parent)Cost" inherits="ZO_SortHeader">
+                            <OnInitialized>
+                                ZO_SortHeader_Initialize(self, "Цена", "cost", ZO_SORT_ORDER_DOWN, TEXT_ALIGN_LEFT, "ZoFontGameLargeBold")
+                            </OnInitialized>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Trait" relativePoint="TOPRIGHT" />
+                            <Dimensions x="128" y="32" />
+                        </Control>
+                    </Controls>
+                </Control>
+                <Control name="$(parent)List" inherits="ZO_ScrollList">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" />
+                    <Anchor point="BOTTOMRIGHT" offsetX="-12" offsetY="-64" />
+                </Control>
+            </Controls>
+        </TopLevelControl>
+        <Button name="ScrollListExampleUnitRow" virtual="true">
+            <Dimensions y="30" />
+            <Anchor point="RIGHT" relativeTo="$(parent)" />
+            <OnMouseEnter>
+                SLE.MouseEnter(self)
+            </OnMouseEnter>
+            <OnMouseExit>
+                SLE.MouseExit(self)
+            </OnMouseExit>
+            <OnMouseUp>
+                SLE.MouseUp(self, button, upInside)
+            </OnMouseUp>
+            <Controls>
+                <Texture name="$(parent)Icon" excludeFromResizeToFitExtents="true" wrapMode="ELLIPSIS">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" />
+                    <Dimensions x="24" y="24" />
+                </Texture>
+                <Label name="$(parent)Name" font="ZoFontWinH4" wrapMode="ELLIPSIS">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Icon" relativePoint="TOPRIGHT" />
+                    <Dimensions x="320" y="32" />
+                </Label>
+                <Label name="$(parent)Location" font="ZoFontWinH4" wrapMode="ELLIPSIS">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Name" relativePoint="TOPRIGHT" />
+                    <Dimensions x="150" y="32" />
+                </Label>
+                <Label name="$(parent)Npc" font="ZoFontWinH4" wrapMode="ELLIPSIS">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Location"  relativePoint="TOPRIGHT" />
+                    <Dimensions x="128" y="32" />
+                </Label>
+                <Label name="$(parent)Trait" font="ZoFontWinH4" wrapMode="ELLIPSIS">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Npc" relativePoint="TOPRIGHT" />
+                    <Dimensions x="150" y="32" />
+                </Label>
+                <Label name="$(parent)Cost" font="ZoFontWinH4" wrapMode="ELLIPSIS">
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Trait" relativePoint="TOPRIGHT" />
+                    <Dimensions x="128" y="32" />
+                </Label>
+            </Controls>
+        </Button>
+    </Controls>
+</GuiXml>
