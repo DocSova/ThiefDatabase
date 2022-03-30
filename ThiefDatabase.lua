@@ -101,7 +101,7 @@ function UnitList:SetupUnitRow(control, data)
 	control.location:SetText(data.location)
 	control.npc:SetText(data.npc)
 	control.trait:SetText(data.trait)
-	control.cost:SetText(string.format("%dg",data.cost))
+	control.cost:SetText(data.cost)
 
 	control.name.normalColor = SLE.DEFAULT_TEXT
 	control.location.normalColor = SLE.DEFAULT_TEXT
@@ -132,6 +132,7 @@ end
 
 function SLE.MouseUp(control, button, upInside)
 	local cd = control.data
+	local price = Dr_ThiefDB.getItemLinkPrice(cd.itemLink)
 	--d(table.concat( { cd.name, cd.race, cd.class, cd.zone }, " "))
 end
 
@@ -222,6 +223,28 @@ function Dr_ThiefDB.getItemType( itemLink )
 	return item_tables[GetItemLinkItemType(itemLink)]
 end
 
+function Dr_ThiefDB.getItemLinkPrice(itemLink)
+	local itemCost
+
+	if TamrielTradeCentrePrice then
+		local priceStats = TamrielTradeCentrePrice:GetPriceInfo(itemLink)
+		if priceStats then 
+			itemCost = priceStats.SuggestedPrice or priceStats.Avg
+		end
+	elseif MasterMerchant and LibGuildStore_Internal then
+		local priceStats = MasterMerchant:GetTooltipStats(GetItemLinkItemId(itemLink), LibGuildStore_Internal.GetOrCreateIndexFromLink(itemLink), false, true)
+		if priceStats.avgPrice then itemCost = priceStats.avgPrice end
+	end
+
+	if (not itemCost) then
+		itemCost = "N/A"
+	else
+		itemCost = string.format("%d", itemCost) .. '|t16:16:EsoUI/Art/currency/currency_gold.dds|t'
+	end
+
+	return itemCost
+end
+
 function Dr_ThiefDB.OnLootReceived( eventCode, receivedBy, itemName, quantity, soundCategory, lootType, self, isPickpocketLoot, questItemIcon, itemId, isStolen )
 	if (not isPickpocketLoot) or (monster_class == "") then return end
 	
@@ -272,7 +295,7 @@ function Dr_ThiefDB.Initialize(event, addon)
 	local ItemLocation = "Алинор"
 	local ItemNPC = "Аристократ"
 	local ItemTrait = "Эпический"
-	local ItemCost = 10000000
+	local ItemCost = Dr_ThiefDB.getItemLinkPrice("|H1:item:45359:365:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h");
 	local ItemLink = "|H1:item:139238:5:1:0:0:0:0:0:0:0:0:0:0:0:16:0:0:0:1:0:0|h|h"
 	SLE.units[ItemName] = {location=ItemLocation, npc=ItemNPC, trait=ItemTrait, cost=ItemCost, itemLink=ItemLink}
 	SLE.UnitList:Refresh()
